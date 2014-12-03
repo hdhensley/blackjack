@@ -4,3 +4,5 @@
 /Deck.class
 /Hand.class
 /Player.class
+/Game.class
+/IGame.class

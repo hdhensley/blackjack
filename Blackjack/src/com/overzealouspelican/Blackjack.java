@@ -1,18 +1,15 @@
 package com.overzealouspelican;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import com.overzealouspelican.Deck.OutOfCardsException;
 
-public class Blackjack {
+public class Blackjack extends Game implements IGame{
 
-	ArrayList<Player> players = new ArrayList<Player>();	
 	Player house = new Player("House",new Hand());
-	Deck d = new Deck();
+	
 	private int hitUnder = 12;
 	private int lowCardCount = 5;
-	private int numberOfGames = 20;
 	
 	public static void main(String[] args) {
 		new Blackjack();
@@ -33,7 +30,7 @@ public class Blackjack {
 		printSummary();
 	}
 	
-	private void play(){
+	public void play(){
 		try{
 			if( d.size() <= lowCardCount ){
 				d = new Deck();
@@ -72,7 +69,7 @@ public class Blackjack {
 		}
 	}
 	
-	private void printResult(){
+	public void printResult(){
 		int houseValue = house.getHand().getValue();
 		
 		for( Player p : players ){
@@ -94,7 +91,7 @@ public class Blackjack {
 		}
 	}
 	
-	private void printSummary(){
+	public void printSummary(){
 		for(Player p : players){
 			System.out.println(p.getName() + " ~\n" +
 							   "  Wins : " + p.getWins() + "\n" +
