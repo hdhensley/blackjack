@@ -1,0 +1,107 @@
+package com.overzealouspelican;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import com.overzealouspelican.Deck.OutOfCardsException;
+
+public class Blackjack {
+
+	ArrayList<Player> players = new ArrayList<Player>();	
+	Player house = new Player("House",new Hand());
+	Deck d = new Deck();
+	private int hitUnder = 12;
+	private int lowCardCount = 5;
+	private int numberOfGames = 20;
+	
+	public static void main(String[] args) {
+		new Blackjack();
+	}
+	
+	public Blackjack(){					
+		
+		String[] playerNames = {"Player0","Player1","Player2","Player3"};
+		
+		for(String p : playerNames ){
+			players.add(new Player(p,new Hand()));
+		}
+		
+		for( int i = 0; i < numberOfGames; i++ ){
+			play();
+		}
+		
+		printSummary();
+	}
+	
+	private void play(){
+		try{
+			if( d.size() <= lowCardCount ){
+				d = new Deck();
+			}
+			
+			Collections.shuffle(d);
+			
+			house.getHand().reset();			
+			house.addCard(d.deal());
+			Card secondHouseCard = d.deal();
+			secondHouseCard.setVisible(false);
+			house.addCard(secondHouseCard);
+			
+			for(Player p : players ){
+				p.getHand().reset();
+				p.addCard(d.deal());
+				p.addCard(d.deal());
+			}
+			
+			while(house.getHand().getValue() < hitUnder ){
+				house.addCard(d.deal());
+			}
+			
+			for(Player p : players ){
+				while( p.getHand().getValue() < hitUnder ){
+					p.addCard(d.deal());
+				}
+			}
+			
+			printResult();
+		} catch( OutOfCardsException e ){
+			d = new Deck();
+			System.out.println("Out of cards, adding new deck.");
+			System.out.println("-----------------------------");
+			numberOfGames++;
+		}
+	}
+	
+	private void printResult(){
+		int houseValue = house.getHand().getValue();
+		
+		for( Player p : players ){
+			int playerValue = p.getHand().getValue();
+			System.out.println("House Value : " + houseValue + "(" + house.getHand().toString() + ")");
+			System.out.println(p.getName() + " Value : " + playerValue + " (" + p.getHand().toString() + ")");
+			
+			if( playerValue < houseValue && ! house.getHand().isBusted() ){
+				System.out.println(p.getName() + " loses.");
+				p.addLoss();
+			} else if( playerValue == houseValue && ! house.getHand().isBusted() ){
+				System.out.println(p.getName() + " pushed.");
+				p.addPush();
+			} else {
+				System.out.println(p.getName() + " wins!");
+				p.addWin();
+			}
+			System.out.println("-----------------------------");
+		}
+	}
+	
+	private void printSummary(){
+		for(Player p : players){
+			System.out.println(p.getName() + " ~\n" +
+							   "  Wins : " + p.getWins() + "\n" +
+							   "  Losses : " + p.getLoses() + "\n" +
+							   "  Pushes : " + p.getPushes() + "\n" +
+							   "  Win % : " + ( ( (float) p.getWins() + p.getPushes() ) / p.getGameCount())*100);
+		}
+	}
+
+}
