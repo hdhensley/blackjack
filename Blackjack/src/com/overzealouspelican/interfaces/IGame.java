@@ -1,4 +1,4 @@
-package com.overzealouspelican;
+package com.overzealouspelican.interfaces;
 
 public interface IGame {
 	public void play();

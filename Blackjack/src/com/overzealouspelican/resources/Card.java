@@ -1,4 +1,4 @@
-package com.overzealouspelican;
+package com.overzealouspelican.resources;
 
 public class Card {
 	private String suit;

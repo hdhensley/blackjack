@@ -1,6 +1,7 @@
-package com.overzealouspelican;
+package com.overzealouspelican.resources;
 
 import java.util.ArrayList;
+
 
 public class Hand extends ArrayList<Card> {
 	

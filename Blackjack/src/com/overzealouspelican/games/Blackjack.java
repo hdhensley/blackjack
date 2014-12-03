@@ -1,8 +1,14 @@
-package com.overzealouspelican;
+package com.overzealouspelican.games;
 
 import java.util.Collections;
 
-import com.overzealouspelican.Deck.OutOfCardsException;
+import com.overzealouspelican.interfaces.IGame;
+import com.overzealouspelican.resources.Card;
+import com.overzealouspelican.resources.Deck;
+import com.overzealouspelican.resources.Game;
+import com.overzealouspelican.resources.Hand;
+import com.overzealouspelican.resources.Player;
+import com.overzealouspelican.resources.Deck.OutOfCardsException;
 
 public class Blackjack extends Game implements IGame{
 
